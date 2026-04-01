@@ -1,0 +1,24 @@
+Math-Laro: Bislig Edition (Leyte) - Client Instructions
+========================================================
+
+How to Start the Game (One-Click):
+----------------------------------
+1.  **Transfer the folder**: Copy the entire "questmap" folder to the client's computer.
+2.  **Run the Launcher**: Open the folder and double-click the file named "start_game.bat".
+3.  **Wait**: 
+    - The first time it runs, it will automatically install the necessary components (this requires an internet connection for the first run).
+    - After it's set up, it will automatically launch your web browser and load the game.
+
+Pre-requisites:
+--------------
+- The client MUST have **Node.js** installed on their computer.
+- Download it here: https://nodejs.org/ (Choose the "LTS" version).
+- Without Node.js, the "start_game.bat" will give an error and won't work.
+
+How to stop:
+-----------
+- Simply close the black terminal window (Command Prompt) when you're finished.
+
+Note:
+-----
+This is a development version. For a production-ready, no-installation-required version, we'd need to host it on a website (like GitHub Pages or Vercel).

@@ -1,0 +1,440 @@
+{
+  "quests": [
+    {
+      "quest_id": "addition_001",
+      "title": "Mang Juan's Coconut Harvest",
+      "topic": "addition",
+      "grade_level": 3,
+      "difficulty": "easy",
+      "unlocks_after": null,
+      "story": {
+        "setting": "Barangay Bislig, Tanauan, Leyte",
+        "narrative": "Mang Juan harvested 45 coconuts in the morning and 38 in the afternoon. How many coconuts did he harvest in total?"
+      },
+      "decoding_shield": {
+        "step_1_asked": {
+          "label": "What is asked?",
+          "accepted_answers": ["total coconuts harvested", "how many coconuts in all", "total harvest"],
+          "coins": 1
+        },
+        "step_2_given": {
+          "label": "What are the given?",
+          "accepted_answers": ["45 coconuts in the morning, 38 in the afternoon", "45 and 38", "45 coconuts, 38 coconuts"],
+          "coins": 1
+        },
+        "step_3_operation": {
+          "label": "What is the operation?",
+          "accepted_answers": ["addition", "add", "plus"],
+          "coins": 1
+        },
+        "step_4_number_sentence": {
+          "label": "What is the number sentence?",
+          "accepted_answers": ["45 + 38 = n", "45 + 38 = ?", "45 plus 38"],
+          "coins": 1
+        }
+      },
+      "answer": { "value": 83, "unit": "coconuts", "coins_for_correct_answer": 2 },
+      "hint": { "costs_power_card": true, "text": "Try adding the tens first: 40 + 30 = 70. Then add the ones: 5 + 8 = 13. Put them together!" },
+      "reward": { "completion_message": "Nindot! Mang Juan harvested 83 coconuts in total. Great work!", "next_quest": "addition_002" }
+    },
+    {
+      "quest_id": "addition_002",
+      "title": "The Fisherman's Big Catch",
+      "topic": "addition",
+      "grade_level": 3,
+      "difficulty": "easy",
+      "unlocks_after": "addition_001",
+      "story": {
+        "setting": "Barangay Bislig, Tanauan, Leyte",
+        "narrative": "A fisherman caught 12 kilos of bangus and 15 kilos of tilapia. How many kilos of fish did he catch altogether?"
+      },
+      "decoding_shield": {
+        "step_1_asked": { "label": "What is asked?", "accepted_answers": ["total kilos of fish", "how many kilos altogether", "total fish caught"], "coins": 1 },
+        "step_2_given": { "label": "What are the given?", "accepted_answers": ["12 kilos of bangus, 15 kilos of tilapia", "12 and 15", "12 kilos, 15 kilos"], "coins": 1 },
+        "step_3_operation": { "label": "What is the operation?", "accepted_answers": ["addition", "add", "plus"], "coins": 1 },
+        "step_4_number_sentence": { "label": "What is the number sentence?", "accepted_answers": ["12 + 15 = n", "12 + 15 = ?", "12 plus 15"], "coins": 1 }
+      },
+      "answer": { "value": 27, "unit": "kilos", "coins_for_correct_answer": 2 },
+      "hint": { "costs_power_card": true, "text": "Add the ones first: 2 + 5 = 7. Then the tens: 10 + 10 = 20. So 20 + 7 = ?" },
+      "reward": { "completion_message": "Ayos! The fisherman caught 27 kilos of fish. You are amazing!", "next_quest": "addition_003" }
+    },
+    {
+      "quest_id": "addition_003",
+      "title": "Aling Nena's Mango Baskets",
+      "topic": "addition",
+      "grade_level": 3,
+      "difficulty": "easy",
+      "unlocks_after": "addition_002",
+      "story": {
+        "setting": "Barangay Bislig, Tanauan, Leyte",
+        "narrative": "Aling Nena sold 24 baskets of mangoes on Monday and 19 baskets on Tuesday. What is the total number of baskets sold?"
+      },
+      "decoding_shield": {
+        "step_1_asked": { "label": "What is asked?", "accepted_answers": ["total baskets sold", "how many baskets in all", "total number of baskets"], "coins": 1 },
+        "step_2_given": { "label": "What are the given?", "accepted_answers": ["24 baskets on Monday, 19 baskets on Tuesday", "24 and 19", "24 baskets, 19 baskets"], "coins": 1 },
+        "step_3_operation": { "label": "What is the operation?", "accepted_answers": ["addition", "add", "plus"], "coins": 1 },
+        "step_4_number_sentence": { "label": "What is the number sentence?", "accepted_answers": ["24 + 19 = n", "24 + 19 = ?", "24 plus 19"], "coins": 1 }
+      },
+      "answer": { "value": 43, "unit": "baskets", "coins_for_correct_answer": 2 },
+      "hint": { "costs_power_card": true, "text": "Try 24 + 19. Think of it as 24 + 20 = 44, then subtract 1. What do you get?" },
+      "reward": { "completion_message": "Galing! Aling Nena sold 43 baskets in total. Keep it up!", "next_quest": "addition_004" }
+    },
+    {
+      "quest_id": "addition_004",
+      "title": "The School Garden Seeds",
+      "topic": "addition",
+      "grade_level": 3,
+      "difficulty": "easy",
+      "unlocks_after": "addition_003",
+      "story": {
+        "setting": "Barangay Bislig, Tanauan, Leyte",
+        "narrative": "Grade 3 planted 32 pechay seeds, while Grade 4 planted 45 seeds. How many seeds were planted in the school garden?"
+      },
+      "decoding_shield": {
+        "step_1_asked": { "label": "What is asked?", "accepted_answers": ["total seeds planted", "how many seeds in all", "total pechay seeds"], "coins": 1 },
+        "step_2_given": { "label": "What are the given?", "accepted_answers": ["32 seeds from Grade 3, 45 seeds from Grade 4", "32 and 45", "32 seeds, 45 seeds"], "coins": 1 },
+        "step_3_operation": { "label": "What is the operation?", "accepted_answers": ["addition", "add", "plus"], "coins": 1 },
+        "step_4_number_sentence": { "label": "What is the number sentence?", "accepted_answers": ["32 + 45 = n", "32 + 45 = ?", "32 plus 45"], "coins": 1 }
+      },
+      "answer": { "value": 77, "unit": "seeds", "coins_for_correct_answer": 2 },
+      "hint": { "costs_power_card": true, "text": "Add tens: 30 + 40 = 70. Add ones: 2 + 5 = 7. Now combine them!" },
+      "reward": { "completion_message": "Magaling! The school garden has 77 seeds. You solved it!", "next_quest": "addition_005" }
+    },
+    {
+      "quest_id": "addition_005",
+      "title": "The Barangay Fiesta Feast",
+      "topic": "addition",
+      "grade_level": 3,
+      "difficulty": "easy",
+      "unlocks_after": "addition_004",
+      "story": {
+        "setting": "Barangay Bislig, Tanauan, Leyte",
+        "narrative": "For the barangay fiesta, the community cooked 15 pots of adobo and 12 pots of kaldereta. How many pots of food were prepared?"
+      },
+      "decoding_shield": {
+        "step_1_asked": { "label": "What is asked?", "accepted_answers": ["total pots of food", "how many pots in all", "total food prepared"], "coins": 1 },
+        "step_2_given": { "label": "What are the given?", "accepted_answers": ["15 pots of adobo, 12 pots of kaldereta", "15 and 12", "15 pots, 12 pots"], "coins": 1 },
+        "step_3_operation": { "label": "What is the operation?", "accepted_answers": ["addition", "add", "plus"], "coins": 1 },
+        "step_4_number_sentence": { "label": "What is the number sentence?", "accepted_answers": ["15 + 12 = n", "15 + 12 = ?", "15 plus 12"], "coins": 1 }
+      },
+      "answer": { "value": 27, "unit": "pots", "coins_for_correct_answer": 2 },
+      "hint": { "costs_power_card": true, "text": "15 + 12. Start with the ones: 5 + 2 = 7. Then tens: 10 + 10 = 20. So?" },
+      "reward": { "completion_message": "Sarap! The fiesta had 27 pots of food. Maayong trabaho!", "next_quest": "subtraction_001" }
+    },
+    {
+      "quest_id": "subtraction_001",
+      "title": "The Missing Sacks of Rice",
+      "topic": "subtraction",
+      "grade_level": 3,
+      "difficulty": "easy",
+      "unlocks_after": "addition_005",
+      "story": {
+        "setting": "Barangay Bislig, Tanauan, Leyte",
+        "narrative": "A truck had 90 sacks of rice, but 25 sacks were delivered to a small sari-sari store. How many sacks are left on the truck?"
+      },
+      "decoding_shield": {
+        "step_1_asked": { "label": "What is asked?", "accepted_answers": ["how many sacks are left", "remaining sacks of rice", "sacks left on the truck"], "coins": 1 },
+        "step_2_given": { "label": "What are the given?", "accepted_answers": ["90 sacks total, 25 sacks delivered", "90 and 25", "90 sacks, 25 sacks"], "coins": 1 },
+        "step_3_operation": { "label": "What is the operation?", "accepted_answers": ["subtraction", "subtract", "minus"], "coins": 1 },
+        "step_4_number_sentence": { "label": "What is the number sentence?", "accepted_answers": ["90 - 25 = n", "90 - 25 = ?", "90 minus 25"], "coins": 1 }
+      },
+      "answer": { "value": 65, "unit": "sacks", "coins_for_correct_answer": 2 },
+      "hint": { "costs_power_card": true, "text": "Start with the ones: 0 - 5 is tricky, so borrow from the tens. Then subtract normally." },
+      "reward": { "completion_message": "Tama! There are 65 sacks of rice left. Excellent!", "next_quest": "subtraction_002" }
+    },
+    {
+      "quest_id": "subtraction_002",
+      "title": "The Pandesal Morning Rush",
+      "topic": "subtraction",
+      "grade_level": 3,
+      "difficulty": "easy",
+      "unlocks_after": "subtraction_001",
+      "story": {
+        "setting": "Barangay Bislig, Tanauan, Leyte",
+        "narrative": "A baker had 50 packs of pandesal. After the morning rush, only 12 packs remained. How many packs were sold?"
+      },
+      "decoding_shield": {
+        "step_1_asked": { "label": "What is asked?", "accepted_answers": ["how many packs were sold", "packs of pandesal sold", "number of packs sold"], "coins": 1 },
+        "step_2_given": { "label": "What are the given?", "accepted_answers": ["50 packs total, 12 packs remaining", "50 and 12", "50 packs, 12 packs left"], "coins": 1 },
+        "step_3_operation": { "label": "What is the operation?", "accepted_answers": ["subtraction", "subtract", "minus"], "coins": 1 },
+        "step_4_number_sentence": { "label": "What is the number sentence?", "accepted_answers": ["50 - 12 = n", "50 - 12 = ?", "50 minus 12"], "coins": 1 }
+      },
+      "answer": { "value": 38, "unit": "packs", "coins_for_correct_answer": 2 },
+      "hint": { "costs_power_card": true, "text": "Think of it this way: 50 - 10 = 40, then 40 - 2 = ?" },
+      "reward": { "completion_message": "Lami! The baker sold 38 packs of pandesal. You are a Math Hero!", "next_quest": "subtraction_003" }
+    },
+    {
+      "quest_id": "subtraction_003",
+      "title": "Lola's Broken Eggs",
+      "topic": "subtraction",
+      "grade_level": 3,
+      "difficulty": "easy",
+      "unlocks_after": "subtraction_002",
+      "story": {
+        "setting": "Barangay Bislig, Tanauan, Leyte",
+        "narrative": "Lola gathered 36 eggs from the coop, but 7 were accidentally broken. How many whole eggs does she have left?"
+      },
+      "decoding_shield": {
+        "step_1_asked": { "label": "What is asked?", "accepted_answers": ["how many whole eggs are left", "remaining eggs", "eggs not broken"], "coins": 1 },
+        "step_2_given": { "label": "What are the given?", "accepted_answers": ["36 eggs gathered, 7 broken", "36 and 7", "36 eggs, 7 broken eggs"], "coins": 1 },
+        "step_3_operation": { "label": "What is the operation?", "accepted_answers": ["subtraction", "subtract", "minus"], "coins": 1 },
+        "step_4_number_sentence": { "label": "What is the number sentence?", "accepted_answers": ["36 - 7 = n", "36 - 7 = ?", "36 minus 7"], "coins": 1 }
+      },
+      "answer": { "value": 29, "unit": "eggs", "coins_for_correct_answer": 2 },
+      "hint": { "costs_power_card": true, "text": "36 - 7. Think of it as 36 - 6 = 30, then 30 - 1 = ?" },
+      "reward": { "completion_message": "Maayo! Lola has 29 whole eggs. Well done, Math Hero!", "next_quest": "subtraction_004" }
+    },
+    {
+      "quest_id": "subtraction_004",
+      "title": "The Teacher's Pencils",
+      "topic": "subtraction",
+      "grade_level": 3,
+      "difficulty": "easy",
+      "unlocks_after": "subtraction_003",
+      "story": {
+        "setting": "Barangay Bislig, Tanauan, Leyte",
+        "narrative": "A teacher had 100 pencils. She gave 32 to her pupils. How many pencils does she still have?"
+      },
+      "decoding_shield": {
+        "step_1_asked": { "label": "What is asked?", "accepted_answers": ["how many pencils are left", "remaining pencils", "pencils the teacher still has"], "coins": 1 },
+        "step_2_given": { "label": "What are the given?", "accepted_answers": ["100 pencils total, 32 given away", "100 and 32", "100 pencils, 32 pencils given"], "coins": 1 },
+        "step_3_operation": { "label": "What is the operation?", "accepted_answers": ["subtraction", "subtract", "minus"], "coins": 1 },
+        "step_4_number_sentence": { "label": "What is the number sentence?", "accepted_answers": ["100 - 32 = n", "100 - 32 = ?", "100 minus 32"], "coins": 1 }
+      },
+      "answer": { "value": 68, "unit": "pencils", "coins_for_correct_answer": 2 },
+      "hint": { "costs_power_card": true, "text": "100 - 32. Try 100 - 30 = 70 first, then 70 - 2 = ?" },
+      "reward": { "completion_message": "Perpekto! The teacher still has 68 pencils. Excellent thinking!", "next_quest": "subtraction_005" }
+    },
+    {
+      "quest_id": "subtraction_005",
+      "title": "The Daing Vendor",
+      "topic": "subtraction",
+      "grade_level": 3,
+      "difficulty": "easy",
+      "unlocks_after": "subtraction_004",
+      "story": {
+        "setting": "Barangay Bislig, Tanauan, Leyte",
+        "narrative": "A vendor had 15 kilos of daing. A customer bought 6 kilos. How many kilos are left for other customers?"
+      },
+      "decoding_shield": {
+        "step_1_asked": { "label": "What is asked?", "accepted_answers": ["how many kilos are left", "remaining kilos of daing", "kilos left for other customers"], "coins": 1 },
+        "step_2_given": { "label": "What are the given?", "accepted_answers": ["15 kilos of daing, 6 kilos bought", "15 and 6", "15 kilos, 6 kilos"], "coins": 1 },
+        "step_3_operation": { "label": "What is the operation?", "accepted_answers": ["subtraction", "subtract", "minus"], "coins": 1 },
+        "step_4_number_sentence": { "label": "What is the number sentence?", "accepted_answers": ["15 - 6 = n", "15 - 6 = ?", "15 minus 6"], "coins": 1 }
+      },
+      "answer": { "value": 9, "unit": "kilos", "coins_for_correct_answer": 2 },
+      "hint": { "costs_power_card": true, "text": "Count back 6 steps from 15: 14, 13, 12, 11, 10, 9. What number did you land on?" },
+      "reward": { "completion_message": "Sakto! There are 9 kilos of daing left. You are on fire!", "next_quest": "multiplication_001" }
+    },
+    {
+      "quest_id": "multiplication_001",
+      "title": "The Jeepney Fare",
+      "topic": "multiplication",
+      "grade_level": 3,
+      "difficulty": "medium",
+      "unlocks_after": "subtraction_005",
+      "story": {
+        "setting": "Barangay Bislig, Tanauan, Leyte",
+        "narrative": "A jeepney driver charges P12 per passenger. If he has 8 passengers, how much will he earn for that trip?"
+      },
+      "decoding_shield": {
+        "step_1_asked": { "label": "What is asked?", "accepted_answers": ["how much will he earn", "total earnings", "total fare collected"], "coins": 1 },
+        "step_2_given": { "label": "What are the given?", "accepted_answers": ["12 pesos per passenger, 8 passengers", "12 and 8", "12 pesos, 8 passengers"], "coins": 1 },
+        "step_3_operation": { "label": "What is the operation?", "accepted_answers": ["multiplication", "multiply", "times"], "coins": 1 },
+        "step_4_number_sentence": { "label": "What is the number sentence?", "accepted_answers": ["12 x 8 = n", "12 x 8 = ?", "12 times 8", "8 x 12 = n"], "coins": 1 }
+      },
+      "answer": { "value": 96, "unit": "pesos", "coins_for_correct_answer": 2 },
+      "hint": { "costs_power_card": true, "text": "Think of 12 x 8 as (10 x 8) + (2 x 8) = 80 + 16 = ?" },
+      "reward": { "completion_message": "Husay! The driver earns P96. You cracked the code!", "next_quest": "multiplication_002" }
+    },
+    {
+      "quest_id": "multiplication_002",
+      "title": "Mang Pedro's Corn Field",
+      "topic": "multiplication",
+      "grade_level": 3,
+      "difficulty": "medium",
+      "unlocks_after": "multiplication_001",
+      "story": {
+        "setting": "Barangay Bislig, Tanauan, Leyte",
+        "narrative": "Mang Pedro planted 6 rows of corn, with 15 corn stalks in each row. How many corn stalks did he plant in total?"
+      },
+      "decoding_shield": {
+        "step_1_asked": { "label": "What is asked?", "accepted_answers": ["total corn stalks planted", "how many corn stalks in all", "total number of stalks"], "coins": 1 },
+        "step_2_given": { "label": "What are the given?", "accepted_answers": ["6 rows, 15 stalks per row", "6 and 15", "6 rows, 15 corn stalks each"], "coins": 1 },
+        "step_3_operation": { "label": "What is the operation?", "accepted_answers": ["multiplication", "multiply", "times"], "coins": 1 },
+        "step_4_number_sentence": { "label": "What is the number sentence?", "accepted_answers": ["6 x 15 = n", "6 x 15 = ?", "6 times 15", "15 x 6 = n"], "coins": 1 }
+      },
+      "answer": { "value": 90, "unit": "corn stalks", "coins_for_correct_answer": 2 },
+      "hint": { "costs_power_card": true, "text": "6 x 15. Try 6 x 10 = 60, then 6 x 5 = 30. Add them together!" },
+      "reward": { "completion_message": "Lami kaayo! Mang Pedro planted 90 corn stalks. Amazing!", "next_quest": "multiplication_003" }
+    },
+    {
+      "quest_id": "multiplication_003",
+      "title": "Chairs in the Classroom",
+      "topic": "multiplication",
+      "grade_level": 3,
+      "difficulty": "medium",
+      "unlocks_after": "multiplication_002",
+      "story": {
+        "setting": "Barangay Bislig, Tanauan, Leyte",
+        "narrative": "There are 5 rows of chairs in the classroom, and each row has 9 chairs. How many pupils can sit in the classroom?"
+      },
+      "decoding_shield": {
+        "step_1_asked": { "label": "What is asked?", "accepted_answers": ["how many pupils can sit", "total chairs in the classroom", "total number of seats"], "coins": 1 },
+        "step_2_given": { "label": "What are the given?", "accepted_answers": ["5 rows, 9 chairs per row", "5 and 9", "5 rows, 9 chairs each"], "coins": 1 },
+        "step_3_operation": { "label": "What is the operation?", "accepted_answers": ["multiplication", "multiply", "times"], "coins": 1 },
+        "step_4_number_sentence": { "label": "What is the number sentence?", "accepted_answers": ["5 x 9 = n", "5 x 9 = ?", "5 times 9", "9 x 5 = n"], "coins": 1 }
+      },
+      "answer": { "value": 45, "unit": "pupils", "coins_for_correct_answer": 2 },
+      "hint": { "costs_power_card": true, "text": "Count by 9s: 9, 18, 27, 36, 45. How many 9s did you count?" },
+      "reward": { "completion_message": "Tama gyud! 45 pupils can sit. You are a Math Champion!", "next_quest": "multiplication_004" }
+    },
+    {
+      "quest_id": "multiplication_004",
+      "title": "Baskets of Mangoes",
+      "topic": "multiplication",
+      "grade_level": 3,
+      "difficulty": "medium",
+      "unlocks_after": "multiplication_003",
+      "story": {
+        "setting": "Barangay Bislig, Tanauan, Leyte",
+        "narrative": "Each basket contains 12 mangoes. If there are 4 baskets, how many mangoes are there altogether?"
+      },
+      "decoding_shield": {
+        "step_1_asked": { "label": "What is asked?", "accepted_answers": ["total mangoes", "how many mangoes altogether", "total number of mangoes"], "coins": 1 },
+        "step_2_given": { "label": "What are the given?", "accepted_answers": ["12 mangoes per basket, 4 baskets", "12 and 4", "12 mangoes, 4 baskets"], "coins": 1 },
+        "step_3_operation": { "label": "What is the operation?", "accepted_answers": ["multiplication", "multiply", "times"], "coins": 1 },
+        "step_4_number_sentence": { "label": "What is the number sentence?", "accepted_answers": ["12 x 4 = n", "12 x 4 = ?", "12 times 4", "4 x 12 = n"], "coins": 1 }
+      },
+      "answer": { "value": 48, "unit": "mangoes", "coins_for_correct_answer": 2 },
+      "hint": { "costs_power_card": true, "text": "12 x 4. Think of it as 10 x 4 = 40, plus 2 x 4 = 8. Add them!" },
+      "reward": { "completion_message": "Nindot! There are 48 mangoes in all. Great solving!", "next_quest": "multiplication_005" }
+    },
+    {
+      "quest_id": "multiplication_005",
+      "title": "The Busy Bakery",
+      "topic": "multiplication",
+      "grade_level": 3,
+      "difficulty": "medium",
+      "unlocks_after": "multiplication_004",
+      "story": {
+        "setting": "Barangay Bislig, Tanauan, Leyte",
+        "narrative": "A bakery makes 20 packs of pandesal every hour. How many packs will they make in 5 hours?"
+      },
+      "decoding_shield": {
+        "step_1_asked": { "label": "What is asked?", "accepted_answers": ["total packs in 5 hours", "how many packs will be made", "total pandesal packs"], "coins": 1 },
+        "step_2_given": { "label": "What are the given?", "accepted_answers": ["20 packs per hour, 5 hours", "20 and 5", "20 packs, 5 hours"], "coins": 1 },
+        "step_3_operation": { "label": "What is the operation?", "accepted_answers": ["multiplication", "multiply", "times"], "coins": 1 },
+        "step_4_number_sentence": { "label": "What is the number sentence?", "accepted_answers": ["20 x 5 = n", "20 x 5 = ?", "20 times 5", "5 x 20 = n"], "coins": 1 }
+      },
+      "answer": { "value": 100, "unit": "packs", "coins_for_correct_answer": 2 },
+      "hint": { "costs_power_card": true, "text": "Count by 20s: 20, 40, 60, 80, 100. That is 5 jumps!" },
+      "reward": { "completion_message": "Perpekto! The bakery makes 100 packs in 5 hours. Multiplication quests done!", "next_quest": "division_001" }
+    },
+    {
+      "quest_id": "division_001",
+      "title": "Mang Antonio's Mangoes",
+      "topic": "division",
+      "grade_level": 3,
+      "difficulty": "medium",
+      "unlocks_after": "multiplication_005",
+      "story": {
+        "setting": "Barangay Bislig, Tanauan, Leyte",
+        "narrative": "Mang Antonio has 48 mangoes to share equally among his 4 children. How many mangoes will each child receive?"
+      },
+      "decoding_shield": {
+        "step_1_asked": { "label": "What is asked?", "accepted_answers": ["how many mangoes each child gets", "mangoes per child", "share of each child"], "coins": 1 },
+        "step_2_given": { "label": "What are the given?", "accepted_answers": ["48 mangoes, 4 children", "48 and 4", "48 mangoes shared among 4"], "coins": 1 },
+        "step_3_operation": { "label": "What is the operation?", "accepted_answers": ["division", "divide", "divided by"], "coins": 1 },
+        "step_4_number_sentence": { "label": "What is the number sentence?", "accepted_answers": ["48 / 4 = n", "48 divided by 4 = n", "48 divided by 4", "48 / 4 = ?"], "coins": 1 }
+      },
+      "answer": { "value": 12, "unit": "mangoes per child", "coins_for_correct_answer": 2 },
+      "hint": { "costs_power_card": true, "text": "Think: what times 4 equals 48? 4 x 10 = 40, 4 x 2 = 8. So 4 x 12 = ?" },
+      "reward": { "completion_message": "Sakto! Each child gets 12 mangoes. Fair and square!", "next_quest": "division_002" }
+    },
+    {
+      "quest_id": "division_002",
+      "title": "Eggs in a Box",
+      "topic": "division",
+      "grade_level": 3,
+      "difficulty": "medium",
+      "unlocks_after": "division_001",
+      "story": {
+        "setting": "Barangay Bislig, Tanauan, Leyte",
+        "narrative": "A farmer gathered 60 eggs and wants to put them into boxes of 12. How many boxes does he need?"
+      },
+      "decoding_shield": {
+        "step_1_asked": { "label": "What is asked?", "accepted_answers": ["how many boxes are needed", "number of boxes", "boxes needed for the eggs"], "coins": 1 },
+        "step_2_given": { "label": "What are the given?", "accepted_answers": ["60 eggs, 12 eggs per box", "60 and 12", "60 eggs, boxes of 12"], "coins": 1 },
+        "step_3_operation": { "label": "What is the operation?", "accepted_answers": ["division", "divide", "divided by"], "coins": 1 },
+        "step_4_number_sentence": { "label": "What is the number sentence?", "accepted_answers": ["60 / 12 = n", "60 divided by 12 = n", "60 divided by 12", "60 / 12 = ?"], "coins": 1 }
+      },
+      "answer": { "value": 5, "unit": "boxes", "coins_for_correct_answer": 2 },
+      "hint": { "costs_power_card": true, "text": "How many times does 12 fit into 60? Count by 12s: 12, 24, 36, 48, 60." },
+      "reward": { "completion_message": "Galing! The farmer needs 5 boxes. You are unstoppable!", "next_quest": "division_003" }
+    },
+    {
+      "quest_id": "division_003",
+      "title": "Pencils for Everyone",
+      "topic": "division",
+      "grade_level": 3,
+      "difficulty": "medium",
+      "unlocks_after": "division_002",
+      "story": {
+        "setting": "Barangay Bislig, Tanauan, Leyte",
+        "narrative": "A teacher has 30 pencils and wants to give an equal number to 10 pupils. How many pencils will each pupil get?"
+      },
+      "decoding_shield": {
+        "step_1_asked": { "label": "What is asked?", "accepted_answers": ["how many pencils per pupil", "pencils each pupil gets", "share of each pupil"], "coins": 1 },
+        "step_2_given": { "label": "What are the given?", "accepted_answers": ["30 pencils, 10 pupils", "30 and 10", "30 pencils shared among 10 pupils"], "coins": 1 },
+        "step_3_operation": { "label": "What is the operation?", "accepted_answers": ["division", "divide", "divided by"], "coins": 1 },
+        "step_4_number_sentence": { "label": "What is the number sentence?", "accepted_answers": ["30 / 10 = n", "30 divided by 10 = n", "30 divided by 10", "30 / 10 = ?"], "coins": 1 }
+      },
+      "answer": { "value": 3, "unit": "pencils per pupil", "coins_for_correct_answer": 2 },
+      "hint": { "costs_power_card": true, "text": "Think: 10 x 3 = 30. So 30 divided by 10 = ?" },
+      "reward": { "completion_message": "Magaling! Each pupil gets 3 pencils. Fair for all!", "next_quest": "division_004" }
+    },
+    {
+      "quest_id": "division_004",
+      "title": "Fish in the Ice Buckets",
+      "topic": "division",
+      "grade_level": 3,
+      "difficulty": "medium",
+      "unlocks_after": "division_003",
+      "story": {
+        "setting": "Barangay Bislig, Tanauan, Leyte",
+        "narrative": "A vendor has 24 kilos of fish to be placed in 3 large ice buckets. How many kilos of fish should go in each bucket?"
+      },
+      "decoding_shield": {
+        "step_1_asked": { "label": "What is asked?", "accepted_answers": ["how many kilos per bucket", "kilos of fish in each bucket", "fish per ice bucket"], "coins": 1 },
+        "step_2_given": { "label": "What are the given?", "accepted_answers": ["24 kilos of fish, 3 buckets", "24 and 3", "24 kilos, 3 ice buckets"], "coins": 1 },
+        "step_3_operation": { "label": "What is the operation?", "accepted_answers": ["division", "divide", "divided by"], "coins": 1 },
+        "step_4_number_sentence": { "label": "What is the number sentence?", "accepted_answers": ["24 / 3 = n", "24 divided by 3 = n", "24 divided by 3", "24 / 3 = ?"], "coins": 1 }
+      },
+      "answer": { "value": 8, "unit": "kilos per bucket", "coins_for_correct_answer": 2 },
+      "hint": { "costs_power_card": true, "text": "What times 3 equals 24? Count by 3s: 3, 6, 9, 12, 15, 18, 21, 24. How many steps?" },
+      "reward": { "completion_message": "Nindot kaayo! Each bucket gets 8 kilos. Almost there!", "next_quest": "division_005" }
+    },
+    {
+      "quest_id": "division_005",
+      "title": "Seedlings for Every Street",
+      "topic": "division",
+      "grade_level": 3,
+      "difficulty": "medium",
+      "unlocks_after": "division_004",
+      "story": {
+        "setting": "Barangay Bislig, Tanauan, Leyte",
+        "narrative": "The barangay has 100 seedlings to plant in 5 different streets. How many seedlings will be planted on each street?"
+      },
+      "decoding_shield": {
+        "step_1_asked": { "label": "What is asked?", "accepted_answers": ["how many seedlings per street", "seedlings on each street", "share of seedlings per street"], "coins": 1 },
+        "step_2_given": { "label": "What are the given?", "accepted_answers": ["100 seedlings, 5 streets", "100 and 5", "100 seedlings, 5 different streets"], "coins": 1 },
+        "step_3_operation": { "label": "What is the operation?", "accepted_answers": ["division", "divide", "divided by"], "coins": 1 },
+        "step_4_number_sentence": { "label": "What is the number sentence?", "accepted_answers": ["100 / 5 = n", "100 divided by 5 = n", "100 divided by 5", "100 / 5 = ?"], "coins": 1 }
+      },
+      "answer": { "value": 20, "unit": "seedlings per street", "coins_for_correct_answer": 2 },
+      "hint": { "costs_power_card": true, "text": "Count by 20s: 20, 40, 60, 80, 100. How many 20s fit in 100?" },
+      "reward": { "completion_message": "DAKO nga Congrats! Each street gets 20 seedlings. You completed ALL quests! You are a TRUE Math Hero!", "next_quest": null }
+    }
+  ]
+}
