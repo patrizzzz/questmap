@@ -34,7 +34,6 @@ export const QuestMap = ({ setBg }) => {
     ]
   };
 
-  // Build the complete ordered sequence of path points
   const allPoints = useMemo(() => {
     const points = [];
     ['addition', 'subtraction', 'multiplication', 'division'].forEach(topic => {
@@ -45,7 +44,6 @@ export const QuestMap = ({ setBg }) => {
     return points;
   }, []);
 
-  // Generate a smooth SVG path
   const generatePathData = (points) => {
     if (!points.length) return "";
     let d = `M ${points[0].x},${points[0].y}`;
@@ -96,28 +94,26 @@ export const QuestMap = ({ setBg }) => {
       {/* SVG Trail Layer */}
       <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{
         position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-        pointerEvents: 'none', filter: 'drop-shadow(0 0 5px rgba(0,0,0,0.5))',
+        pointerEvents: 'none', filter: 'drop-shadow(0 0 10px rgba(0,0,0,0.3))',
         zIndex: 0
       }}>
         <defs>
-          <filter id="glow">
-             <feGaussianBlur stdDeviation="1" result="coloredBlur"/>
-             <feMerge>
-                <feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/>
-             </feMerge>
+          <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+             <feGaussianBlur stdDeviation="1.5" result="blur"/>
+             <feComposite in="SourceGraphic" in2="blur" operator="over"/>
           </filter>
         </defs>
 
-        <path d={pathData} fill="none" stroke="rgba(253, 224, 71, 0.2)" strokeWidth="2.5" strokeLinecap="round" />
+        <path d={pathData} fill="none" stroke="rgba(253, 224, 71, 0.4)" strokeWidth="3" strokeLinecap="round" strokeDasharray="1 3" />
         
         <path 
-           d={pathData} fill="none" stroke="var(--gold)" strokeWidth="1.2" strokeLinecap="round" 
-           strokeDasharray="2 2" className="trail-flow" 
-           style={{ filter: 'url(#glow)',  opacity: 0.8 }}
+           d={pathData} fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" 
+           strokeDasharray="6 4" className="trail-flow" 
+           style={{ filter: 'url(#glow)', opacity: 0.6 }}
         />
       </svg>
 
-      {/* Stage Labels - Adjusted to Sit Lower */}
+      {/* Stage Labels */}
       {stages.map((stage, idx) => {
         const topicQuests = allQuests.filter(q => q.topic === stage.topic);
         if (!topicQuests.length) return null;
@@ -126,11 +122,11 @@ export const QuestMap = ({ setBg }) => {
 
         return (
           <div key={idx} style={{
-             position: 'absolute', left: `${pos.x}%`, top: `${pos.y + 16}%`,
-             background: 'rgba(0,0,0,0.8)', color: 'white', padding: '6px 16px', borderRadius: '12px',
-             fontWeight: '800', fontSize: '0.9rem', zIndex: 1, border: `3px solid ${stage.color}`,
+             position: 'absolute', left: `${pos.x}%`, top: `${pos.y + 12}%`,
+             background: 'var(--wood)', color: 'var(--gold)', padding: '4px 16px', borderRadius: '8px',
+             fontWeight: '800', fontSize: '0.8rem', zIndex: 5, border: `2px solid var(--gold)`,
              transform: 'translate(-50%, 0)', pointerEvents: 'none', whiteSpace: 'nowrap',
-             boxShadow: '0 4px 10px rgba(0,0,0,0.4)', textTransform: 'uppercase'
+             boxShadow: '0 4px 10px rgba(0,0,0,0.5)', textTransform: 'uppercase'
           }}>
             {stage.name}
           </div>
@@ -160,35 +156,34 @@ export const QuestMap = ({ setBg }) => {
              onMouseLeave={handleMouseLeaveNode}
           >
              {isActive && (
-               <div style={{
-                 position: 'absolute', top: '-45px', left: '50%', transform: 'translateX(-50%)',
-                 width: '45px', height: '45px', borderRadius: '50%', border: '3px solid white',
-                 boxShadow: '0 4px 10px rgba(0,0,0,0.5)', zIndex: 10, overflow: 'hidden',
-                 background: 'white', animation: 'float 2s infinite ease-in-out'
-               }}>
-                 <img src="/avatar.png" alt="You" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
-               </div>
+                <div style={{
+                  position: 'absolute', top: '-55px', left: '50%', transform: 'translateX(-50%)',
+                  width: '50px', height: '50px', borderRadius: '12px', border: '3px solid white',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.6)', zIndex: 100, overflow: 'hidden',
+                  background: 'white', animation: 'float 2s infinite ease-in-out'
+                }}>
+                  <img src="/avatar.png" alt="You" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                </div>
              )}
 
              {(hoveredNode === quest.quest_id || (isActive && currentView === 'map')) && (
-               <div className="node-popover animate-pop">
-                 <div style={{fontWeight: '700', fontSize: '0.9rem'}}>{quest.topic.toUpperCase()}</div>
-                 <div style={{fontSize: '0.75rem', margin: '4px 0'}}>{quest.title}</div>
-                 
-                 {isUnlocked && (
-                    <button className="btn-game btn-play" onClick={() => startQuest(quest.quest_id)} style={{marginTop: '4px', padding: '4px 8px', fontSize: '0.8rem'}}>
-                      <Play size={12} fill="white" /> PLAY
-                    </button>
-                 )}
+               <div className="node-popover animate-pop" style={{ border: '3px solid var(--wood)' }}>
+                  <div style={{fontWeight: '800', fontSize: '0.85rem', color: 'var(--wood)'}}>{quest.topic.toUpperCase()}</div>
+                  <div style={{fontSize: '0.75rem', margin: '4px 0', color: '#64748b'}}>{quest.title}</div>
+                  
+                  {isUnlocked && (
+                     <button className="btn-premium" onClick={() => startQuest(quest.quest_id)} style={{marginTop: '4px', padding: '10px 16px', fontSize: '0.9rem', width: '100%'}}>
+                        <Play fill="var(--wood)" color="var(--wood)" size={16} /> PLAY
+                     </button>
+                  )}
                </div>
              )}
 
-             <div className={nodeClass} onClick={() => handleNodeClick(quest)} style={{ width: '60px', height: '60px', fontSize: '1.5rem', borderWidth: '4px'}}>
-               {!isUnlocked && <Lock size={20} color="#64748b" />}
+             <div className={nodeClass} onClick={() => handleNodeClick(quest)}>
+               {!isUnlocked && <Lock size={20} color="white" />}
                {isActive && <span>{questIdx + 1}</span>}
-               {isCompleted && <Check size={32} color="#ca8a04" />}
+               {isCompleted && <Check size={32} color="var(--wood)" />}
                {isUnlocked && !isActive && !isCompleted && <span>{questIdx + 1}</span>}
-               {isUnlocked && !isCompleted && !isActive && <div className="shimmer-overlay" />}
              </div>
           </div>
         );
