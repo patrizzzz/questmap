@@ -2,10 +2,84 @@ import React, { useState, useEffect } from 'react';
 import { useGame, GameProvider } from './GameState';
 import { QuestMap } from './QuestMap';
 import { QuestSidebar } from './QuestSidebar';
-import { Coins, Lightbulb, User, ArrowRight, Timer, X } from 'lucide-react';
+import { Coins, Lightbulb, Play, ArrowRight, Timer, X, Save, LogOut, HelpCircle, RotateCcw, Volume2, VolumeX } from 'lucide-react';
 import './index.css';
 
 import { HomeScreen } from './HomeScreen';
+import { InstructionsModal } from './InstructionsModal';
+import { OnboardingTutorial } from './OnboardingTutorial';
+import { AudioEngine } from './AudioEngine';
+
+const MenuOverlay = ({ onClose }) => {
+  const { setCurrentView, saveToLocal, loadFromLocal, resetGame } = useGame();
+  const [saveStatus, setSaveStatus] = useState('');
+  const [showInstructions, setShowInstructions] = useState(false);
+
+  const handleSave = () => {
+    saveToLocal();
+    setSaveStatus('GAME SAVED!');
+    setTimeout(() => setSaveStatus(''), 2000);
+  };
+
+  const handleLoad = () => {
+    if (window.confirm("Load your last save? This will undo any unsaved progress!")) {
+      if (loadFromLocal()) {
+        setSaveStatus('LOADED!');
+        setTimeout(() => {
+          setSaveStatus('');
+          onClose();
+        }, 1000);
+      }
+    }
+  };
+
+  if (showInstructions) {
+    return <InstructionsModal onClose={() => setShowInstructions(false)} />;
+  }
+
+  return (
+    <div className="success-overlay" style={{ zIndex: 5000 }}>
+      <div className="success-card animate-pop" style={{ width: '380px', padding: '30px' }}>
+        <h2 className="success-title" style={{ fontSize: '2.5rem', marginBottom: '25px' }}>GAME MENU</h2>
+        
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+          <button className="btn-premium" onClick={onClose} style={{ padding: '15px' }}>
+            <Play fill="currentColor" size={20} /> RESUME
+          </button>
+
+          <button className="btn-premium" onClick={handleSave} style={{ padding: '15px', background: 'linear-gradient(to bottom, #4ade80, #16a34a)' }}>
+            <Save fill="currentColor" size={20} /> {saveStatus || 'SAVE GAME'}
+          </button>
+
+          <button className="btn-premium" onClick={handleLoad} style={{ padding: '15px', background: 'linear-gradient(to bottom, #60a5fa, #2563eb)' }}>
+            <RotateCcw size={20} /> LOAD LAST SAVE
+          </button>
+
+          <button className="btn-premium" onClick={() => setShowInstructions(true)} style={{ padding: '15px', background: 'linear-gradient(to bottom, var(--wood-light), var(--wood))', color: 'white' }}>
+            <HelpCircle size={20} /> HOW TO PLAY
+          </button>
+
+          <div style={{ height: '2px', background: 'rgba(0,0,0,0.1)', margin: '10px 0' }} />
+
+          <button 
+            className="btn-game" 
+            onClick={() => setCurrentView('home')} 
+            style={{ padding: '15px', background: 'var(--danger)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}
+          >
+            <LogOut size={20} /> QUIT TO HOME
+          </button>
+        </div>
+
+        <button 
+           onClick={() => { if(window.confirm("Reset all game data? This cannot be undone!")) resetGame(); }}
+           style={{ marginTop: '20px', background: 'none', border: 'none', color: '#94a3b8', fontSize: '0.7rem', cursor: 'pointer', textDecoration: 'underline' }}
+        >
+          RESET ENTIRE PROGRESS
+        </button>
+      </div>
+    </div>
+  );
+};
 
 const SuccessOverlay = () => {
   const { currentLevelId, allQuests, setIsQuestSuccess, setCurrentView } = useGame();
@@ -51,13 +125,13 @@ const SuccessOverlay = () => {
   );
 };
 
-const GameHeader = () => {
-  const { coins, cards, resetGame } = useGame();
+const GameHeader = ({ onOpenMenu }) => {
+  const { coins, cards, resetGame, playerName, setCurrentView, isMuted, setIsMuted } = useGame();
 
   return (
     <div className="top-hud animate-slide-down">
       <div className="logo-container animate-pop">
-        <div className="logo-main text-3d">Math-Laro</div>
+        <div className="logo-main text-3d" onClick={() => setCurrentView('home')} style={{ cursor: 'pointer' }}>Math-Laro</div>
         <div className="logo-sub">Bislig • Grade 3 Math</div>
       </div>
 
@@ -66,37 +140,77 @@ const GameHeader = () => {
           <img src="/avatar.png" alt="Hero Avatar" className="hero-avatar" />
         </div>
         <div className="hero-info">
-          <div className="hero-name" onClick={() => { if(window.confirm("Reset game?")) resetGame(); }}>Leo Explorer</div>
+          <div className="hero-name" onClick={() => { if(window.confirm("Reset game?")) resetGame(); }}>{playerName}</div>
           <div className="hero-level">Bislig Guardian • Rank 3</div>
         </div>
       </div>
 
-      <div className="incentive-box glass-widget">
-        <div className="incentive-col">
-          <div className="incentive-title">Math-Coins</div>
-          <div className="incentive-value-row">
-            <Coins color="var(--gold-dark)" size={24} fill="rgba(253, 224, 71, 0.4)" />
-            <span>{coins}</span>
+      <div className="hud-actions" style={{ display: 'flex', gap: '15px', alignItems: 'flex-start' }}>
+        <button 
+          className="btn-game" 
+          onClick={() => setIsMuted(!isMuted)}
+          style={{ padding: '12px', background: 'var(--wood)', color: 'var(--gold)', border: '2px solid var(--gold)', borderRadius: '12px' }}
+          title={isMuted ? "Unmute Music" : "Mute Music"}
+        >
+          {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+        </button>
+
+        <div className="incentive-box glass-widget">
+          <div className="incentive-col">
+            <div className="incentive-title">Math-Coins</div>
+            <div className="incentive-value-row">
+              <Coins color="var(--gold-dark)" size={24} fill="rgba(253, 224, 71, 0.4)" />
+              <span>{coins}</span>
+            </div>
+          </div>
+          
+          <div className="incentive-col">
+            <div className="incentive-title">Power-Cards</div>
+            <div className="incentive-value-row">
+               <div style={{ background: 'var(--primary)', padding: '4px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                 <Lightbulb color="white" size={20} />
+               </div>
+               <span>{cards}</span>
+            </div>
           </div>
         </div>
-        
-        <div className="incentive-col">
-          <div className="incentive-title">Power-Cards</div>
-          <div className="incentive-value-row">
-             <div style={{ background: 'var(--primary)', padding: '4px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-               <Lightbulb color="white" size={20} />
-             </div>
-             <span>{cards}</span>
-          </div>
-        </div>
+
+        <button 
+          className="btn-game" 
+          onClick={onOpenMenu}
+          style={{ padding: '12px', background: 'var(--wood)', color: 'var(--gold)', border: '2px solid var(--gold)', borderRadius: '12px' }}
+          title="Game Menu"
+        >
+          <X size={20} /> MENU
+        </button>
       </div>
     </div>
   );
 };
 
 const GameEngine = () => {
-  const { currentView, allQuests, currentLevelId, isQuestSuccess, loading } = useGame();
+  const { currentView, allQuests, currentLevelId, isQuestSuccess, loading, hasCompletedTutorial, playSfx } = useGame();
   const [bg, setBg] = useState('/bg_scene.png');
+  const [showMenu, setShowMenu] = useState(false);
+
+  // Global UI Click Sound Handler
+  useEffect(() => {
+    const handleGlobalClick = (e) => {
+      const target = e.target;
+      // Play sound if we clicked a button or something with a primary game class
+      if (
+        target.tagName === 'BUTTON' || 
+        target.closest('button') || 
+        target.classList.contains('map-node') ||
+        target.classList.contains('option-btn')
+      ) {
+        playSfx('click');
+      }
+    };
+
+    document.addEventListener('mousedown', handleGlobalClick);
+    return () => document.removeEventListener('mousedown', handleGlobalClick);
+  }, [playSfx]);
 
   useEffect(() => {
     const activeQuest = allQuests.find(q => q.quest_id === currentLevelId);
@@ -130,7 +244,9 @@ const GameEngine = () => {
       ) : (
         <>
           {isQuestSuccess && <SuccessOverlay />}
-          <GameHeader />
+          {!hasCompletedTutorial && <OnboardingTutorial />}
+          {showMenu && <MenuOverlay onClose={() => setShowMenu(false)} />}
+          <GameHeader onOpenMenu={() => setShowMenu(true)} />
           <div className="map-area">
             <QuestMap setBg={setBg} />
           </div>
@@ -148,6 +264,7 @@ const GameEngine = () => {
 export default function App() {
   return (
     <GameProvider>
+       <AudioEngine />
        <GameEngine />
     </GameProvider>
   );
