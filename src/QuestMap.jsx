@@ -12,10 +12,10 @@ export const QuestMap = ({ setBg }) => {
 
   // Layout Stages
   const stages = [
-    { name: 'Addition Meadows', topic: 'addition', bg: '/bg_meadows.png', color: '#a3e635' },
-    { name: 'Subtraction Springs', topic: 'subtraction', bg: '/bg_springs.png', color: '#38bdf8' },
-    { name: 'Multiplication Mountains', topic: 'multiplication', bg: '/bg_mountains.png', color: '#f59e0b' },
-    { name: 'Division Delta', topic: 'division', bg: '/bg_meadows.png', color: '#a78bfa' },
+    { name: 'Emerald Fields', topic: 'addition', bg: '/bg_meadows.png', color: '#a3e635' },
+    { name: 'Crystal Waters', topic: 'subtraction', bg: '/bg_springs.png', color: '#38bdf8' },
+    { name: 'Golden Peaks', topic: 'multiplication', bg: '/bg_mountains.png', color: '#f59e0b' },
+    { name: 'Mystic Valleys', topic: 'division', bg: '/bg_meadows.png', color: '#a78bfa' },
   ];
 
   // Precise Map Coordinates following a winding "S" path
@@ -168,7 +168,7 @@ export const QuestMap = ({ setBg }) => {
 
              {(hoveredNode === quest.quest_id || (isActive && currentView === 'map')) && (
                <div className="node-popover animate-pop" style={{ border: '3px solid var(--wood)' }}>
-                  <div style={{fontWeight: '800', fontSize: '0.85rem', color: 'var(--wood)'}}>{quest.topic.toUpperCase()}</div>
+                  <div style={{fontWeight: '800', fontSize: '0.85rem', color: 'var(--wood)'}}>CHALLENGE</div>
                   <div style={{fontSize: '0.75rem', margin: '4px 0', color: '#64748b'}}>{quest.title}</div>
                   
                   {isUnlocked && (

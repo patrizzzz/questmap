@@ -66,6 +66,17 @@ export const GameProvider = ({ children }) => {
     return false;
   };
 
+  const buyCard = (cost = 10) => {
+    if (coins >= cost) {
+      setCoins(prev => prev - cost);
+      setCards(prev => prev + 1);
+      playSfx('success');
+      return true;
+    }
+    playSfx('error');
+    return false;
+  };
+
   const unlockStep = (stepId, coinAmount = 1) => {
     if (!questProgress[stepId]) {
       setQuestProgress(prev => ({ ...prev, [stepId]: true }));
@@ -203,7 +214,7 @@ export const GameProvider = ({ children }) => {
     allQuests, loading, coins, cards, playerName, currentLevelId, unlockedLevels, currentView, questProgress,
     isQuestSuccess, hasCompletedTutorial, isMuted, setIsMuted, setIsQuestSuccess, setHasCompletedTutorial, resetGame, setPlayerName, startNewGame,
     saveToLocal, loadUserProgress, getAllSavedUsers, deleteUserSave,
-    earnCoin, useCard, unlockStep, startQuest, finishQuest, setCurrentView, setCurrentLevelId, playSfx
+    earnCoin, useCard, buyCard, unlockStep, startQuest, finishQuest, setCurrentView, setCurrentLevelId, playSfx
   };
 
   return (

@@ -5,7 +5,7 @@ import { Sparkles, ArrowRight, X, Check, Timer } from 'lucide-react';
 const STUCK_THRESHOLD = 60; // 60 seconds
 
 export const DecodingStep = ({ quest, stepKey, label }) => {
-  const { questProgress, unlockStep, useCard, allQuests } = useGame();
+  const { questProgress, unlockStep, useCard, allQuests, cards } = useGame();
   const [choices, setChoices] = useState([]);
   const [selectedChoice, setSelectedChoice] = useState(null);
   const [isCorrect, setIsCorrect] = useState(false);
@@ -63,6 +63,16 @@ export const DecodingStep = ({ quest, stepKey, label }) => {
     }
   };
 
+  const getStepHint = () => {
+    switch(stepKey) {
+      case 'step_1_asked': return "What are we trying to find out? Look for words like 'total', 'how many', or 'left'.";
+      case 'step_2_given': return "Find the numbers in the story and what they represent (e.g., '45 coconuts').";
+      case 'step_3_operation': return "Should we combine (+), find the difference (-), repeat (x), or share (÷)?";
+      case 'step_4_number_sentence': return "Turn the words into math! Use the numbers and the operation sign, like 'A + B = n'.";
+      default: return quest.hint?.text || "Look closely at the numbers!";
+    }
+  };
+
   const handleUseHint = () => {
     if (useCard()) {
        setShowHint(true);
@@ -115,10 +125,10 @@ export const DecodingStep = ({ quest, stepKey, label }) => {
       {!isAlreadySolved && !isCorrect && (
         <div style={{ minHeight: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {showHint ? (
-            <div style={{ color: '#fef3c7', fontSize: '0.65rem', fontStyle: 'italic', textAlign: 'center' }}>{quest.hint.text}</div>
-          ) : isStuck ? (
-            <button onClick={handleUseHint} style={{ background: 'none', border: 'none', color: 'var(--gold)', cursor: 'pointer', fontSize: '0.65rem', fontWeight: 'bold', textDecoration: 'underline' }}>
-               USE HINT?
+            <div style={{ color: '#fef3c7', fontSize: '0.65rem', fontStyle: 'italic', textAlign: 'center' }}>{getStepHint()}</div>
+          ) : (cards > 0 || isStuck) ? (
+            <button onClick={handleUseHint} style={{ background: 'none', border: 'none', color: 'var(--gold)', cursor: 'pointer', fontSize: '0.65rem', fontWeight: 'bold', textDecoration: 'underline', display: 'flex', alignItems: 'center', gap: '4px' }}>
+               <Sparkles size={10} /> USE HINT?
             </button>
           ) : null}
         </div>
@@ -128,8 +138,9 @@ export const DecodingStep = ({ quest, stepKey, label }) => {
 };
 
 export const QuestSidebar = () => {
-  const { currentLevelId, allQuests, questProgress, unlockStep, setCurrentView, finishQuest } = useGame();
+  const { currentLevelId, allQuests, questProgress, unlockStep, setCurrentView, finishQuest, cards, useCard } = useGame();
   const [finalVal, setFinalVal] = useState('');
+  const [showFinalHint, setShowFinalHint] = useState(false);
   
   const quest = allQuests.find(q => q.quest_id === currentLevelId);
   if (!quest) return null;
@@ -206,6 +217,23 @@ export const QuestSidebar = () => {
                     <button className="btn-game btn-submit" onClick={handleFinalSubmit} style={{ padding: '8px', fontSize: '0.9rem' }}>
                        SOLVE CHALLENGE
                     </button>
+                    
+                    {!questProgress.final_answer && (
+                      <div style={{ marginTop: '4px' }}>
+                        {showFinalHint ? (
+                          <div style={{ color: 'var(--wood)', fontSize: '0.7rem', fontStyle: 'italic', background: '#fef3c7', padding: '8px', borderRadius: '8px', border: '1px solid #fde68a' }}>
+                            💡 {quest.hint.text}
+                          </div>
+                        ) : (
+                          <button 
+                            onClick={() => { if(useCard()) setShowFinalHint(true); }} 
+                            style={{ background: 'none', border: 'none', color: 'var(--wood)', cursor: 'pointer', fontSize: '0.65rem', fontWeight: 'bold', textDecoration: 'underline', opacity: cards > 0 ? 1 : 0.5 }}
+                          >
+                            NEED A CALCULATION HINT? (1 CARD)
+                          </button>
+                        )}
+                      </div>
+                    )}
                  </div>
                )}
             </div>

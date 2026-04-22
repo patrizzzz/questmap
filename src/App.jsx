@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useGame, GameProvider } from './GameState';
 import { QuestMap } from './QuestMap';
 import { QuestSidebar } from './QuestSidebar';
-import { Coins, Lightbulb, Play, ArrowRight, Timer, X, Save, LogOut, HelpCircle, RotateCcw, Volume2, VolumeX } from 'lucide-react';
+import { Coins, Lightbulb, Play, ArrowRight, Timer, X, Save, LogOut, HelpCircle, RotateCcw, Volume2, VolumeX, ShoppingBag, Sparkles } from 'lucide-react';
 import './index.css';
 
 import { HomeScreen } from './HomeScreen';
@@ -125,7 +125,80 @@ const SuccessOverlay = () => {
   );
 };
 
-const GameHeader = ({ onOpenMenu }) => {
+const MarketModal = ({ onClose }) => {
+  const { coins, cards, buyCard } = useGame();
+  const CARD_COST = 10;
+
+  const handleBuy = () => {
+    if (!buyCard(CARD_COST)) {
+      alert("Not enough Math-Coins! Complete more quests to earn more.");
+    }
+  };
+
+  return (
+    <div className="success-overlay" style={{ zIndex: 6000 }}>
+      <div className="success-card animate-pop" style={{ width: '420px', padding: '30px', background: 'var(--bg-parchment-light)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+           <h2 className="success-title" style={{ fontSize: '2.5rem', margin: 0 }}>MARKET</h2>
+           <button onClick={onClose} style={{ background: 'var(--danger)', border: 'none', borderRadius: '8px', padding: '8px', cursor: 'pointer' }}>
+             <X size={20} color="white" />
+           </button>
+        </div>
+
+        <div className="story-card" style={{ background: 'white', padding: '20px', marginBottom: '20px' }}>
+          <div style={{ textAlign: 'left' }}>
+            <p style={{ color: 'var(--wood)', fontWeight: '700', fontSize: '0.9rem', marginBottom: '10px' }}>YOUR BALANCE:</p>
+            <div style={{ display: 'flex', gap: '20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Coins color="var(--gold-dark)" size={24} />
+                <span style={{ fontSize: '1.5rem', fontWeight: '800', color: 'var(--wood)' }}>{coins}</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <div style={{ background: 'var(--primary)', padding: '4px', borderRadius: '8px' }}>
+                  <Lightbulb color="white" size={18} />
+                </div>
+                <span style={{ fontSize: '1.5rem', fontWeight: '800', color: 'var(--wood)' }}>{cards}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="item-card" style={{ background: 'white', borderRadius: '20px', padding: '20px', border: '3px solid var(--wood)', boxShadow: '0 8px 0 var(--wood-light)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+            <div style={{ width: '80px', height: '80px', background: 'var(--primary)', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'inset 0 4px 8px rgba(0,0,0,0.2)' }}>
+              <Lightbulb color="white" size={48} className="floating" />
+            </div>
+            <div style={{ textAlign: 'left', flex: 1 }}>
+              <h3 style={{ color: 'var(--wood)', fontSize: '1.2rem', fontWeight: '800' }}>POWER CARD</h3>
+              <p style={{ fontSize: '0.8rem', color: '#64748b' }}>Reveals a hint during decoding steps.</p>
+            </div>
+          </div>
+          
+          <div style={{ marginTop: '20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Coins color="var(--gold-dark)" size={20} />
+              <span style={{ fontWeight: '800', fontSize: '1.2rem', color: 'var(--gold-dark)' }}>{CARD_COST}</span>
+            </div>
+            <button 
+              className="btn-premium" 
+              onClick={handleBuy}
+              style={{ padding: '10px 25px', fontSize: '1rem' }}
+              disabled={coins < CARD_COST}
+            >
+              EXCHANGE
+            </button>
+          </div>
+        </div>
+
+        <p style={{ marginTop: '25px', fontSize: '0.75rem', color: '#94a3b8', fontStyle: 'italic' }}>
+          "Power Cards are essential for unlocking tricky Decoding Shields!"
+        </p>
+      </div>
+    </div>
+  );
+};
+
+const GameHeader = ({ onOpenMenu, onOpenMarket }) => {
   const { coins, cards, resetGame, playerName, setCurrentView, isMuted, setIsMuted } = useGame();
 
   return (
@@ -177,6 +250,15 @@ const GameHeader = ({ onOpenMenu }) => {
 
         <button 
           className="btn-game" 
+          onClick={onOpenMarket}
+          style={{ padding: '12px', background: 'var(--primary)', color: 'white', border: '2px solid white', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}
+          title="Market"
+        >
+          <ShoppingBag size={20} /> MARKET
+        </button>
+
+        <button 
+          className="btn-game" 
           onClick={onOpenMenu}
           style={{ padding: '12px', background: 'var(--wood)', color: 'var(--gold)', border: '2px solid var(--gold)', borderRadius: '12px' }}
           title="Game Menu"
@@ -192,6 +274,7 @@ const GameEngine = () => {
   const { currentView, allQuests, currentLevelId, isQuestSuccess, loading, hasCompletedTutorial, playSfx } = useGame();
   const [bg, setBg] = useState('/bg_scene.png');
   const [showMenu, setShowMenu] = useState(false);
+  const [showMarket, setShowMarket] = useState(false);
 
   // Global UI Click Sound Handler
   useEffect(() => {
@@ -246,7 +329,8 @@ const GameEngine = () => {
           {isQuestSuccess && <SuccessOverlay />}
           {!hasCompletedTutorial && <OnboardingTutorial />}
           {showMenu && <MenuOverlay onClose={() => setShowMenu(false)} />}
-          <GameHeader onOpenMenu={() => setShowMenu(true)} />
+          {showMarket && <MarketModal onClose={() => setShowMarket(false)} />}
+          <GameHeader onOpenMenu={() => setShowMenu(true)} onOpenMarket={() => setShowMarket(true)} />
           <div className="map-area">
             <QuestMap setBg={setBg} />
           </div>
