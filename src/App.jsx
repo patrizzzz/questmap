@@ -2,15 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { useGame, GameProvider } from './GameState';
 import { QuestMap } from './QuestMap';
 import { QuestSidebar } from './QuestSidebar';
-import { Coins, Lightbulb, Play, ArrowRight, Timer, X, Save, LogOut, HelpCircle, RotateCcw, Volume2, VolumeX, ShoppingBag, Sparkles } from 'lucide-react';
+import { Coins, Lightbulb, Play, ArrowRight, Timer, X, Save, LogOut, HelpCircle, RotateCcw, Volume2, VolumeX, ShoppingBag, Sparkles, Trophy } from 'lucide-react';
 import './index.css';
 
 import { HomeScreen } from './HomeScreen';
 import { InstructionsModal } from './InstructionsModal';
 import { OnboardingTutorial } from './OnboardingTutorial';
 import { AudioEngine } from './AudioEngine';
+import { StatsModal } from './StatsModal';
 
-const MenuOverlay = ({ onClose }) => {
+const MenuOverlay = ({ onClose, onOpenStats }) => {
   const { setCurrentView, saveToLocal, loadFromLocal, resetGame } = useGame();
   const [saveStatus, setSaveStatus] = useState('');
   const [showInstructions, setShowInstructions] = useState(false);
@@ -53,6 +54,10 @@ const MenuOverlay = ({ onClose }) => {
 
           <button className="btn-premium" onClick={handleLoad} style={{ padding: '15px', background: 'linear-gradient(to bottom, #60a5fa, #2563eb)' }}>
             <RotateCcw size={20} /> LOAD LAST SAVE
+          </button>
+
+          <button className="btn-premium" onClick={onOpenStats} style={{ padding: '15px', background: 'linear-gradient(to bottom, #a855f7, #7c3aed)' }}>
+            <Trophy fill="currentColor" size={20} /> STATS & HISTORY
           </button>
 
           <button className="btn-premium" onClick={() => setShowInstructions(true)} style={{ padding: '15px', background: 'linear-gradient(to bottom, var(--wood-light), var(--wood))', color: 'white' }}>
@@ -198,7 +203,7 @@ const MarketModal = ({ onClose }) => {
   );
 };
 
-const GameHeader = ({ onOpenMenu, onOpenMarket }) => {
+const GameHeader = ({ onOpenMenu, onOpenMarket, onOpenStats }) => {
   const { coins, cards, resetGame, playerName, setCurrentView, isMuted, setIsMuted } = useGame();
 
   return (
@@ -250,6 +255,15 @@ const GameHeader = ({ onOpenMenu, onOpenMarket }) => {
 
         <button 
           className="btn-game" 
+          onClick={onOpenStats}
+          style={{ padding: '12px', background: 'linear-gradient(to bottom, #a855f7, #7c3aed)', color: 'white', border: '2px solid white', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}
+          title="Stats & Achievements"
+        >
+          <Trophy size={20} /> STATS
+        </button>
+
+        <button 
+          className="btn-game" 
           onClick={onOpenMarket}
           style={{ padding: '12px', background: 'var(--primary)', color: 'white', border: '2px solid white', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}
           title="Market"
@@ -275,6 +289,7 @@ const GameEngine = () => {
   const [bg, setBg] = useState('/bg_scene.png');
   const [showMenu, setShowMenu] = useState(false);
   const [showMarket, setShowMarket] = useState(false);
+  const [showStats, setShowStats] = useState(false);
 
   // Global UI Click Sound Handler
   useEffect(() => {
@@ -328,9 +343,10 @@ const GameEngine = () => {
         <>
           {isQuestSuccess && <SuccessOverlay />}
           {!hasCompletedTutorial && <OnboardingTutorial />}
-          {showMenu && <MenuOverlay onClose={() => setShowMenu(false)} />}
+          {showMenu && <MenuOverlay onClose={() => setShowMenu(false)} onOpenStats={() => { setShowMenu(false); setShowStats(true); }} />}
           {showMarket && <MarketModal onClose={() => setShowMarket(false)} />}
-          <GameHeader onOpenMenu={() => setShowMenu(true)} onOpenMarket={() => setShowMarket(true)} />
+          {showStats && <StatsModal onClose={() => setShowStats(false)} />}
+          <GameHeader onOpenMenu={() => setShowMenu(true)} onOpenMarket={() => setShowMarket(true)} onOpenStats={() => setShowStats(true)} />
           <div className="map-area">
             <QuestMap setBg={setBg} />
           </div>

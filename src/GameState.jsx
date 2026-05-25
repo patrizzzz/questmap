@@ -18,6 +18,8 @@ export const GameProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [isQuestSuccess, setIsQuestSuccess] = useState(false);
   const [hasCompletedTutorial, setHasCompletedTutorial] = useState(false);
+  const [score, setScore] = useState(0);
+  const [history, setHistory] = useState([]);
   
   const [questProgress, setQuestProgress] = useState({
     step_1_asked: false, step_2_given: false, step_3_operation: false, step_4_number_sentence: false, final_answer: false
@@ -52,7 +54,7 @@ export const GameProvider = ({ children }) => {
       saveToLocal();
       localStorage.setItem('math_laro_last_user', playerName);
     }
-  }, [coins, cards, playerName, unlockedLevels, currentLevelId, loading, hasCompletedTutorial]);
+  }, [coins, cards, playerName, unlockedLevels, currentLevelId, loading, hasCompletedTutorial, score, history]);
 
   const earnCoin = (amount = 1) => {
     setCoins(prev => prev + amount);
@@ -96,6 +98,8 @@ export const GameProvider = ({ children }) => {
   const startNewGame = (newName) => {
     setCoins(0);
     setCards(2);
+    setScore(0);
+    setHistory([]);
     setPlayerName(newName || 'Explorer');
     setUnlockedLevels(['addition_001']);
     setCurrentLevelId('addition_001');
@@ -109,22 +113,60 @@ export const GameProvider = ({ children }) => {
     // Explicitly update index
     const index = getAllSavedUsers();
     if (newName && !index.some(u => u.name === newName)) {
-      const newIndex = [...index, { name: newName, quests: 1, coins: 0 }];
+      const newIndex = [...index, { name: newName, quests: 1, coins: 0, score: 0 }];
       localStorage.setItem(INDEX_KEY, JSON.stringify(newIndex));
     }
   };
 
   const finishQuest = () => {
     const quest = allQuests.find(q => q.quest_id === currentLevelId);
-    if (quest && quest.reward.next_quest) {
-      const nextId = quest.reward.next_quest;
-      if (!unlockedLevels.includes(nextId)) {
-        setUnlockedLevels(prev => [...prev, nextId]);
+    if (quest) {
+      // Calculate total coins earned from this quest:
+      // (1 per step * 4 steps) + coins for final answer
+      const stepsCoins = 
+        (quest.decoding_shield?.step_1_asked?.coins || 1) +
+        (quest.decoding_shield?.step_2_given?.coins || 1) +
+        (quest.decoding_shield?.step_3_operation?.coins || 1) +
+        (quest.decoding_shield?.step_4_number_sentence?.coins || 1) +
+        (quest.answer?.coins_for_correct_answer || 2);
+
+      const completionTime = new Date().toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      });
+
+      const newEntry = {
+        questId: quest.quest_id,
+        title: quest.title,
+        topic: quest.topic,
+        coinsEarned: stepsCoins,
+        completedAt: completionTime
+      };
+
+      setHistory(prev => {
+        const filtered = prev.filter(e => e.questId !== quest.quest_id);
+        return [...filtered, newEntry];
+      });
+
+      const wasAlreadyCompleted = history.some(e => e.questId === quest.quest_id);
+      if (!wasAlreadyCompleted) {
+        setScore(prev => prev + stepsCoins);
       }
-      setIsQuestSuccess(true);
-      setCards(prev => prev + 1);
-    } else {
-      setIsQuestSuccess(true);
+
+      const nextId = quest.reward.next_quest;
+      if (nextId) {
+        if (!unlockedLevels.includes(nextId)) {
+          setUnlockedLevels(prev => [...prev, nextId]);
+        }
+        setIsQuestSuccess(true);
+        setCards(prev => prev + 1);
+      } else {
+        setIsQuestSuccess(true);
+      }
     }
   };
 
@@ -138,14 +180,15 @@ export const GameProvider = ({ children }) => {
     
     const saveData = { 
         coins, cards, playerName: name, unlockedLevels, 
-        currentLevelId, hasCompletedTutorial 
+        currentLevelId, hasCompletedTutorial,
+        score, history
     };
     localStorage.setItem(SAVE_PREFIX + name, JSON.stringify(saveData));
     
     // Update Index with latest metadata
     const index = getAllSavedUsers();
     const existingIdx = index.findIndex(u => u.name === name);
-    const meta = { name, quests: unlockedLevels.length, coins: coins };
+    const meta = { name, quests: unlockedLevels.length, coins: coins, score: score };
     
     if (existingIdx >= 0) {
       index[existingIdx] = meta;
@@ -167,6 +210,8 @@ export const GameProvider = ({ children }) => {
         if (parsed.unlockedLevels) setUnlockedLevels(parsed.unlockedLevels);
         if (parsed.currentLevelId) setCurrentLevelId(parsed.currentLevelId);
         if (parsed.hasCompletedTutorial !== undefined) setHasCompletedTutorial(parsed.hasCompletedTutorial);
+        if (parsed.score !== undefined) setScore(parsed.score);
+        if (parsed.history !== undefined) setHistory(parsed.history);
         return true;
       } catch (e) {
         console.error("Error loading user", e);
@@ -203,20 +248,23 @@ export const GameProvider = ({ children }) => {
   const resetGame = (reload = true) => {
     setCoins(0);
     setCards(2);
+    setScore(0);
+    setHistory([]);
     setPlayerName('Explorer');
     setUnlockedLevels(['addition_001']);
     setHasCompletedTutorial(false);
     setCurrentView('home');
     if (reload) window.location.reload();
   };
-
+ 
   const contextValue = {
     allQuests, loading, coins, cards, playerName, currentLevelId, unlockedLevels, currentView, questProgress,
     isQuestSuccess, hasCompletedTutorial, isMuted, setIsMuted, setIsQuestSuccess, setHasCompletedTutorial, resetGame, setPlayerName, startNewGame,
     saveToLocal, loadUserProgress, getAllSavedUsers, deleteUserSave,
-    earnCoin, useCard, buyCard, unlockStep, startQuest, finishQuest, setCurrentView, setCurrentLevelId, playSfx
+    earnCoin, useCard, buyCard, unlockStep, startQuest, finishQuest, setCurrentView, setCurrentLevelId, playSfx,
+    score, history
   };
-
+ 
   return (
     <GameStateContext.Provider value={contextValue}>
       {children}
