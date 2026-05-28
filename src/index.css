@@ -341,8 +341,13 @@ body {
   transition: z-index 0.2s;
 }
 
+.map-node-wrapper.popover-visible {
+  z-index: 100;
+}
+
 .map-node-wrapper:hover,
-.map-node-wrapper:focus-within {
+.map-node-wrapper:focus-within,
+.map-node-wrapper.popover-visible:hover {
   z-index: 1000;
 }
 

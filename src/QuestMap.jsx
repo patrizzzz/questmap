@@ -1,6 +1,30 @@
 import React, { useState, useMemo } from 'react';
 import { useGame } from './GameState';
-import { Check, Lock, Play } from 'lucide-react';
+import { Check, Lock, Play, X } from 'lucide-react';
+
+// Layout Stages
+const stages = [
+  { name: 'Emerald Fields', topic: 'addition', bg: '/bg_meadows.png', color: '#a3e635' },
+  { name: 'Crystal Waters', topic: 'subtraction', bg: '/bg_springs.png', color: '#38bdf8' },
+  { name: 'Golden Peaks', topic: 'multiplication', bg: '/bg_mountains.png', color: '#f59e0b' },
+  { name: 'Mystic Valleys', topic: 'division', bg: '/bg_meadows.png', color: '#a78bfa' },
+];
+
+// Precise Map Coordinates following a winding "S" path
+const topicPositions = {
+  addition: [
+    { x: 10, y: 88 }, { x: 20, y: 78 }, { x: 30, y: 85 }, { x: 42, y: 92 }, { x: 55, y: 85 }
+  ],
+  subtraction: [
+    { x: 50, y: 70 }, { x: 38, y: 62 }, { x: 25, y: 55 }, { x: 15, y: 45 }, { x: 10, y: 32 }
+  ],
+  multiplication: [
+    { x: 22, y: 22 }, { x: 38, y: 15 }, { x: 55, y: 20 }, { x: 72, y: 25 }, { x: 88, y: 35 }
+  ],
+  division: [
+    { x: 82, y: 50 }, { x: 72, y: 65 }, { x: 82, y: 80 }, { x: 70, y: 92 }, { x: 88, y: 90 }
+  ]
+};
 
 export const QuestMap = ({ setBg }) => {
   const { 
@@ -8,31 +32,8 @@ export const QuestMap = ({ setBg }) => {
     currentView, setCurrentLevelId 
   } = useGame();
   
-  const [hoveredNode, setHoveredNode] = useState(null);
-
-  // Layout Stages
-  const stages = [
-    { name: 'Emerald Fields', topic: 'addition', bg: '/bg_meadows.png', color: '#a3e635' },
-    { name: 'Crystal Waters', topic: 'subtraction', bg: '/bg_springs.png', color: '#38bdf8' },
-    { name: 'Golden Peaks', topic: 'multiplication', bg: '/bg_mountains.png', color: '#f59e0b' },
-    { name: 'Mystic Valleys', topic: 'division', bg: '/bg_meadows.png', color: '#a78bfa' },
-  ];
-
-  // Precise Map Coordinates following a winding "S" path
-  const topicPositions = {
-    addition: [
-      { x: 10, y: 88 }, { x: 20, y: 78 }, { x: 30, y: 85 }, { x: 42, y: 92 }, { x: 55, y: 85 }
-    ],
-    subtraction: [
-      { x: 50, y: 70 }, { x: 38, y: 62 }, { x: 25, y: 55 }, { x: 15, y: 45 }, { x: 10, y: 32 }
-    ],
-    multiplication: [
-      { x: 22, y: 22 }, { x: 38, y: 15 }, { x: 55, y: 20 }, { x: 72, y: 25 }, { x: 88, y: 35 }
-    ],
-    division: [
-      { x: 82, y: 50 }, { x: 72, y: 65 }, { x: 82, y: 80 }, { x: 70, y: 92 }, { x: 88, y: 90 }
-    ]
-  };
+  const [, setHoveredNode] = useState(null);
+  const [closedPopoverId, setClosedPopoverId] = useState(null);
 
   const allPoints = useMemo(() => {
     const points = [];
@@ -84,7 +85,17 @@ export const QuestMap = ({ setBg }) => {
 
   const handleNodeClick = (quest) => {
     if (unlockedLevels.includes(quest.quest_id)) {
-      setCurrentLevelId(quest.quest_id);
+      if (currentLevelId === quest.quest_id) {
+        // Toggle the active node's popover visibility
+        if (closedPopoverId === quest.quest_id) {
+          setClosedPopoverId(null);
+        } else {
+          setClosedPopoverId(quest.quest_id);
+        }
+      } else {
+        setCurrentLevelId(quest.quest_id);
+        setClosedPopoverId(null); // Reset closed state when moving to a new node
+      }
     }
   };
 
@@ -147,10 +158,17 @@ export const QuestMap = ({ setBg }) => {
         if (isActive) nodeClass += " active";
         else if (isUnlocked) nodeClass += " unlocked";
 
+        const isClosed = closedPopoverId === quest.quest_id;
+        const isPopoverOpen = isActive && currentView === 'map' && !isClosed;
+        let wrapperClass = "map-node-wrapper";
+        if (isPopoverOpen) {
+          wrapperClass += " popover-visible";
+        }
+
         return (
           <div 
              key={quest.quest_id}
-             className="map-node-wrapper"
+             className={wrapperClass}
              style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
              onMouseEnter={() => handleMouseEnterNode(quest)}
              onMouseLeave={handleMouseLeaveNode}
@@ -166,8 +184,24 @@ export const QuestMap = ({ setBg }) => {
                 </div>
              )}
 
-             {(hoveredNode === quest.quest_id || (isActive && currentView === 'map')) && (
-               <div className="node-popover animate-pop" style={{ border: '3px solid var(--wood)' }}>
+             {isPopoverOpen && (
+               <div className="node-popover animate-pop" style={{ border: '3px solid var(--wood)', position: 'relative' }}>
+                  {/* Close Button */}
+                  <button 
+                     onClick={(e) => {
+                        e.stopPropagation();
+                        setClosedPopoverId(quest.quest_id);
+                     }}
+                     style={{
+                        position: 'absolute', top: '8px', right: '8px',
+                        background: 'none', border: 'none', color: '#94a3b8',
+                        cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        padding: '4px', borderRadius: '4px'
+                     }}
+                     title="Hide details"
+                  >
+                     <X size={12} />
+                  </button>
                   <div style={{fontWeight: '800', fontSize: '0.85rem', color: 'var(--wood)'}}>CHALLENGE</div>
                   <div style={{fontSize: '0.75rem', margin: '4px 0', color: '#64748b'}}>{quest.title}</div>
                   

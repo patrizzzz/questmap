@@ -3,7 +3,7 @@ import { useGame } from './GameState';
 import { X, Trophy, Coins, Award, Calendar, CheckCircle2, Bookmark, BarChart3, Star } from 'lucide-react';
 
 export const StatsModal = ({ onClose }) => {
-  const { history, score, coins, playerName, unlockedLevels } = useGame();
+  const { history, score, coins, playerName } = useGame();
 
   const totalQuestsCount = 20;
   const completedCount = history.length;

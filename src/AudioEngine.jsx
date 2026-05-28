@@ -43,7 +43,7 @@ export const AudioEngine = () => {
               }, 100);
               document.removeEventListener('click', attemptPlay);
             })
-            .catch(error => {
+            .catch(() => {
               console.log("Audio waiting for first interaction...");
               document.addEventListener('click', attemptPlay);
             });

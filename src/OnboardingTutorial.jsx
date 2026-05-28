@@ -54,15 +54,16 @@ export const OnboardingTutorial = () => {
         handleNext();
       }, 500); // Small delay to let the sidebar animate in
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentView, currentStep]);
 
-  const handleNext = () => {
+  function handleNext() {
     if (currentStep < TUTORIAL_STEPS.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
       setHasCompletedTutorial(true);
     }
-  };
+  }
 
   const handleBack = () => {
     if (currentStep > 0) {

@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const GameStateContext = createContext();
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useGame = () => useContext(GameStateContext);
 
 const INDEX_KEY = 'math_laro_v2_index';
@@ -54,13 +55,14 @@ export const GameProvider = ({ children }) => {
       saveToLocal();
       localStorage.setItem('math_laro_last_user', playerName);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coins, cards, playerName, unlockedLevels, currentLevelId, loading, hasCompletedTutorial, score, history]);
 
   const earnCoin = (amount = 1) => {
     setCoins(prev => prev + amount);
   };
 
-  const useCard = () => {
+  const spendCard = () => {
     if (cards > 0) {
       setCards(prev => prev - 1);
       return true;
@@ -175,7 +177,7 @@ export const GameProvider = ({ children }) => {
     return index ? JSON.parse(index) : [];
   };
 
-  const saveToLocal = (name = playerName) => {
+  function saveToLocal(name = playerName) {
     if (name === 'Explorer') return false;
     
     const saveData = { 
@@ -197,7 +199,7 @@ export const GameProvider = ({ children }) => {
     }
     localStorage.setItem(INDEX_KEY, JSON.stringify(index));
     return true;
-  };
+  }
 
   const loadUserProgress = (name) => {
     const saved = localStorage.getItem(SAVE_PREFIX + name);
@@ -238,7 +240,7 @@ export const GameProvider = ({ children }) => {
     if (isMuted) return;
     const sfx = new Audio(`/music/${type}.wav`);
     sfx.volume = 0.5;
-    sfx.play().catch(e => console.log("SFX blocked or missing"));
+    sfx.play().catch(() => console.log("SFX blocked or missing"));
   };
 
   useEffect(() => {
@@ -261,7 +263,7 @@ export const GameProvider = ({ children }) => {
     allQuests, loading, coins, cards, playerName, currentLevelId, unlockedLevels, currentView, questProgress,
     isQuestSuccess, hasCompletedTutorial, isMuted, setIsMuted, setIsQuestSuccess, setHasCompletedTutorial, resetGame, setPlayerName, startNewGame,
     saveToLocal, loadUserProgress, getAllSavedUsers, deleteUserSave,
-    earnCoin, useCard, buyCard, unlockStep, startQuest, finishQuest, setCurrentView, setCurrentLevelId, playSfx,
+    earnCoin, spendCard, buyCard, unlockStep, startQuest, finishQuest, setCurrentView, setCurrentLevelId, playSfx,
     score, history
   };
  

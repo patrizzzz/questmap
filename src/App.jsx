@@ -313,6 +313,7 @@ const GameEngine = () => {
   useEffect(() => {
     const activeQuest = allQuests.find(q => q.quest_id === currentLevelId);
     if (activeQuest) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (activeQuest.topic === 'addition') setBg('/bg_meadows.png');
       else if (activeQuest.topic === 'subtraction') setBg('/bg_springs.png');
       else if (activeQuest.topic === 'multiplication') setBg('/bg_mountains.png');

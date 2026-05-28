@@ -5,7 +5,7 @@ import { InstructionsModal } from './InstructionsModal';
 import { ProfilesModal } from './ProfilesModal';
 
 export const HomeScreen = () => {
-  const { setCurrentView, playerName, setPlayerName, startNewGame, getAllSavedUsers, loadUserProgress, deleteUserSave } = useGame();
+  const { setCurrentView, playerName, startNewGame, getAllSavedUsers, loadUserProgress, deleteUserSave } = useGame();
   const [showInstructions, setShowInstructions] = useState(false);
   const [showProfiles, setShowProfiles] = useState(false);
   const [localName, setLocalName] = useState(playerName);
@@ -25,12 +25,7 @@ export const HomeScreen = () => {
     startNewGame(localName);
   };
 
-  const handleContinue = () => {
-    if (localName.trim() !== '') {
-      setPlayerName(localName);
-    }
-    setCurrentView('map');
-  };
+
 
   const handleSelectProfile = (name) => {
     loadUserProgress(name);

@@ -5,12 +5,12 @@ import { Sparkles, ArrowRight, X, Check, Timer } from 'lucide-react';
 const STUCK_THRESHOLD = 60; // 60 seconds
 
 export const DecodingStep = ({ quest, stepKey, label }) => {
-  const { questProgress, unlockStep, useCard, allQuests, cards } = useGame();
+  const { questProgress, unlockStep, spendCard, allQuests, cards } = useGame();
   const [choices, setChoices] = useState([]);
   const [selectedChoice, setSelectedChoice] = useState(null);
   const [isCorrect, setIsCorrect] = useState(false);
   const [showHint, setShowHint] = useState(false);
-  const [timer, setTimer] = useState(0);
+  const [, setTimer] = useState(0);
   const [isStuck, setIsStuck] = useState(false);
   
   const stepData = quest.decoding_shield[stepKey];
@@ -31,6 +31,7 @@ export const DecodingStep = ({ quest, stepKey, label }) => {
       const finalChoices = [correct, ...distractors].sort(() => Math.random() - 0.5);
       setChoices(finalChoices);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allQuests, quest, stepKey, isAlreadySolved]);
 
   useEffect(() => {
@@ -74,7 +75,7 @@ export const DecodingStep = ({ quest, stepKey, label }) => {
   };
 
   const handleUseHint = () => {
-    if (useCard()) {
+    if (spendCard()) {
        setShowHint(true);
        setIsStuck(false);
        setTimer(0);
@@ -138,7 +139,7 @@ export const DecodingStep = ({ quest, stepKey, label }) => {
 };
 
 export const QuestSidebar = () => {
-  const { currentLevelId, allQuests, questProgress, unlockStep, setCurrentView, finishQuest, cards, useCard } = useGame();
+  const { currentLevelId, allQuests, questProgress, unlockStep, setCurrentView, finishQuest, cards, spendCard } = useGame();
   const [finalVal, setFinalVal] = useState('');
   const [showFinalHint, setShowFinalHint] = useState(false);
   
@@ -226,7 +227,7 @@ export const QuestSidebar = () => {
                           </div>
                         ) : (
                           <button 
-                            onClick={() => { if(useCard()) setShowFinalHint(true); }} 
+                            onClick={() => { if(spendCard()) setShowFinalHint(true); }} 
                             style={{ background: 'none', border: 'none', color: 'var(--wood)', cursor: 'pointer', fontSize: '0.65rem', fontWeight: 'bold', textDecoration: 'underline', opacity: cards > 0 ? 1 : 0.5 }}
                           >
                             NEED A CALCULATION HINT? (1 CARD)
